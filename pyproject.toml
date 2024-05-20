@@ -1,0 +1,32 @@
+# This is a comment
+[project]
+name = "pyrasim"
+version = "0.0.1.dev1"
+dependencies = [
+  "numpy",
+  "matplotlib",
+]
+requires-python = ">=3.8"
+authors = [
+  { name="Roosevelt Ubaldo Chavez", email="roosevelt.ubaldo@outlook.com" },
+]
+description = "A small example package"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+keywords = ["radar", "sdr", "sfcw"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
+
+[project.scripts]
+pyrasim = "pyrasim.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

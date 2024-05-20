@@ -1,0 +1,1 @@
+LIGHT_SPEED = 2.998e8
