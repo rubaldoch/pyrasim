@@ -1,0 +1,1 @@
+LIGHTSPEED = 2.998e8 / 1e5
