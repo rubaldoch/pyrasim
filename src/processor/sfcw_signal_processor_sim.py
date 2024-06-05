@@ -3,12 +3,12 @@
 import sys
 import os
 import json
-from processor.constants import LIGHTSPEED
+from src.processor.constants import LIGHTSPEED
 import zmq
 import time
 import matplotlib.pyplot as plt
 from dataclasses import dataclass, field
-from processor.utils import getSocket, getXmlrpc, psd
+from src.processor.utils import getSocket, getXmlrpc, psd
 import numpy as np
 import string
 import random
@@ -25,8 +25,8 @@ class SfcwSimulationConfig:
     N: int = None
     name: str = ''
     target_range_start: float = 1.0
-    target_range_end: float = field(init=False, repr=False)
-    target_range_step: float = field(init=False, repr=False)
+    target_range_end: float =  50.0 # field(init=False, repr=False)
+    target_range_step: float =  1.0 # field(init=False, repr=False)
     sample_rate: float = field(init=False, repr=False)
     M: int = field(init=False, repr=False)
     
@@ -53,8 +53,8 @@ class SfcwSimulationConfig:
             self.name = f"test-{self.name}"
        
         self.M = int(2**np.ceil(np.log2(self.N)))
-        self.target_range_end = self.max_unambiguos_range/2
-        self.target_range_step = self.range_resolution
+        # self.target_range_end = self.max_unambiguos_range/2
+        # self.target_range_step = self.range_resolution
 
     @property
     def max_unambiguos_range(self):
@@ -152,27 +152,30 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
             change_variable(xmlrpc.set_baseband_freq, current_frequency)
 
             # Retrieve data
+            time.sleep(1) 
             socket = getSocket()
-            time.sleep(0.5)             # Time sleep to start collecting data
+                       # Time sleep to start collecting data
 
             while socket.poll(10) == 0: pass
 
             msg = socket.recv(flags=zmq.NOBLOCK)
-            reference_data, measurement_data = preprocess_data(msg, filename=f"{config.name}-{round(target_range,2)}-{round(current_frequency, 2)}-data.npy")            
-
+            reference_data, measurement_data = preprocess_data(msg)            
             if verbose: print(f"Received frequency: {get_frequency(reference_data, config.sample_rate)}\n")
         
             sample_value_index = reference_data.size // 2
-            sample_value = np.angle(measurement_data[sample_value_index]/reference_data[sample_value_index])
+            # sample_value = np.angle(measurement_data[sample_value_index]/reference_data[sample_value_index])
+            sample_value = measurement_data[sample_value_index]/reference_data[sample_value_index]
+            
             V[idx] = sample_value
                 
+            socket.close()
             current_frequency += config.step_frequency
             idx += 1
-            socket.close()
-            
+
         y_m2 = np.abs(np.fft.ifft(V))
-        x_m2 = np.linspace(0, y_m2.size, y_m2.size)
+        x_m2 = np.linspace(0, y_m2.size - 1, y_m2.size)
         x_m2 = x_m2*LIGHTSPEED/(2*y_m2.size*config.step_frequency)
+
         results.append({
             'expected': target_range, 
             'predicted': x_m2[np.argmax(y_m2)],
@@ -181,22 +184,3 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
         target_range += config.target_range_step  
 
     return results
-
-
-if __name__ == "__main__":
-
-    # Bandwith constante, N variable
-
-    for i in range(100, 500, 100):
-        config = SfcwSimulationConfig(
-            name=f"f_inicial_variable-{i}",
-            start_frequency=i*1e6,
-            step_frequency=3e6,
-            N = 50,
-            )
-        ensayo = {}
-        ensayo['config'] = config.__dict__
-        ensayo['results'] =  sfcw_signal_processor(config)
-        file_ensayo = open(f"{config.name}.json", "w")
-        file_ensayo.write(json.dumps(ensayo))
-        file_ensayo.close()
