@@ -10,7 +10,7 @@ options:
       to posprocessing.
     gen_cmake: 'On'
     gen_linking: dynamic
-    generate_options: qt_gui
+    generate_options: no_gui
     hier_block_src_path: '.:'
     id: sfcw_signal_generator_simul
     max_nouts: '0'
@@ -20,7 +20,7 @@ options:
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
+    run_options: run
     sizing_mode: fixed
     thread_safe_setters: ''
     title: SFCW Signal Generator
@@ -35,38 +35,17 @@ options:
 
 blocks:
 - name: baseband_freq
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Baseband Frequency
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: 1e3
-    step: 1e3
-    stop: 1e5
-    value: 1e3
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1464, 4.0]
-    rotation: 0
-    state: true
-- name: center_freq
   id: variable
   parameters:
     comment: ''
-    value: 3.0e9
+    value: 1e3
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 12.0]
+    coordinate: [1048, 12.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: light_speed
   id: variable
   parameters:
@@ -80,24 +59,15 @@ blocks:
     rotation: 0
     state: true
 - name: loss
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Loss (media and system)
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '0.01'
-    stop: '1'
-    value: '0.01'
-    widget: counter_slider
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 260.0]
+    coordinate: [1128, 76.0]
     rotation: 0
     state: true
 - name: n_channels
@@ -125,24 +95,15 @@ blocks:
     rotation: 0
     state: enabled
 - name: noise_amp
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Noise Level
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '0.01'
-    stop: '1'
     value: '0'
-    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 4.0]
+    coordinate: [648, 12.0]
     rotation: 0
     state: true
 - name: rcs
@@ -158,143 +119,77 @@ blocks:
     rotation: 0
     state: true
 - name: rx_gain
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Reception Gain
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '1'
-    stop: '76'
-    value: '10'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1472, 132.0]
-    rotation: 0
-    state: true
-- name: samp_rate
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Sample Rate
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: 0.2e6
-    step: 1e6
-    stop: 50e6
-    value: 0.2e6
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1336, 4.0]
-    rotation: 0
-    state: true
-- name: target_range
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Target Range
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '1'
-    step: '1'
-    stop: '100'
-    value: '1'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1096, 4.0]
-    rotation: 0
-    state: true
-- name: target_speed
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Target Speed
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '-100'
-    step: '1'
-    stop: '100'
-    value: '0'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1216, 4.0]
-    rotation: 0
-    state: true
-- name: timestamp
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Timestamp
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '1'
-    stop: '200'
-    value: '0'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1208, 132.0]
-    rotation: 0
-    state: true
-- name: tx_gain
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Transmission Gain
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '1'
-    stop: '76'
-    value: '10'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1320, 132.0]
-    rotation: 0
-    state: true
-- name: usrpDevice
   id: variable
   parameters:
     comment: ''
-    value: '"serial=310C4C0"'
+    value: '10'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 12.0]
+    coordinate: [1048, 76.0]
     rotation: 0
-    state: enabled
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 200e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 76.0]
+    rotation: 0
+    state: true
+- name: target_range
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 12.0]
+    rotation: 0
+    state: true
+- name: target_speed
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 12.0]
+    rotation: 0
+    state: true
+- name: timestamp
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 12.0]
+    rotation: 0
+    state: true
+- name: tx_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 12.0]
+    rotation: 0
+    state: true
 - name: wave_length
   id: variable
   parameters:
@@ -308,33 +203,15 @@ blocks:
     rotation: 0
     state: true
 - name: wave_type
-  id: variable_qtgui_chooser
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Waveform Type
-    label0: Constant Wave
-    label1: Sine Wave
-    label2: ''
-    label3: ''
-    label4: ''
-    labels: '[]'
-    num_opts: '2'
-    option0: '0'
-    option1: '1'
-    option2: '2'
-    option3: '3'
-    option4: '4'
-    options: '[0, 1, 2]'
-    orient: Qt.QVBoxLayout
-    type: int
     value: '1'
-    widget: combo_box
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 4.0]
+    coordinate: [552, 12.0]
     rotation: 0
     state: true
 - name: xmlrpc_server_port
@@ -607,184 +484,6 @@ blocks:
     coordinate: [304, 140.0]
     rotation: 0
     state: true
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'True'
-    average: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    ctrlpanel: 'True'
-    fc: baseband_freq
-    fftsize: '1024'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '2'
-    norm_window: 'False'
-    showports: 'False'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
-    type: complex
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1248, 300.0]
-    rotation: 0
-    state: disabled
-- name: qtgui_time_sink_x_0
-  id: qtgui_time_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    axislabels: 'True'
-    color1: blue
-    color10: dark blue
-    color2: red
-    color3: green
-    color4: black
-    color5: cyan
-    color6: magenta
-    color7: yellow
-    color8: dark red
-    color9: dark green
-    comment: ''
-    ctrlpanel: 'False'
-    entags: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label1: RX LoopBack (I)
-    label10: Signal 10
-    label2: RX LoopBack (Q)
-    label3: RX Antenna (I)
-    label4: RX Antenna (Q)
-    label5: Signal 5
-    label6: Signal 6
-    label7: Signal 7
-    label8: Signal 8
-    label9: Signal 9
-    legend: 'True'
-    marker1: '-1'
-    marker10: '-1'
-    marker2: '-1'
-    marker3: '-1'
-    marker4: '-1'
-    marker5: '-1'
-    marker6: '-1'
-    marker7: '-1'
-    marker8: '-1'
-    marker9: '-1'
-    name: '"Time Domain"'
-    nconnections: '2'
-    size: '4096'
-    srate: samp_rate
-    stemplot: 'False'
-    style1: '1'
-    style10: '1'
-    style2: '1'
-    style3: '1'
-    style4: '1'
-    style5: '1'
-    style6: '1'
-    style7: '1'
-    style8: '1'
-    style9: '1'
-    tr_chan: '0'
-    tr_delay: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_slope: qtgui.TRIG_SLOPE_POS
-    tr_tag: '""'
-    type: complex
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    ylabel: Amplitude
-    ymax: '1'
-    ymin: '-1'
-    yunit: '""'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [936, 228.0]
-    rotation: 0
-    state: disabled
 - name: xmlrpc_server_0_0
   id: xmlrpc_server
   parameters:
@@ -827,14 +526,10 @@ connections:
 - [analog_sig_source_x_0_0_0, '0', blocks_throttle_0_0, '0']
 - [blocks_add_xx_0, '0', blocks_multiply_xx_0, '0']
 - [blocks_delay_0, '0', blocks_interleave_0, '1']
-- [blocks_delay_0, '0', qtgui_freq_sink_x_0, '1']
-- [blocks_delay_0, '0', qtgui_time_sink_x_0, '1']
 - [blocks_interleave_0, '0', blocks_stream_to_vector_0_0, '0']
 - [blocks_multiply_xx_0, '0', blocks_delay_0, '0']
 - [blocks_selector_0_0, '0', blocks_add_xx_0, '0']
 - [blocks_selector_0_0, '0', blocks_interleave_0, '0']
-- [blocks_selector_0_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_selector_0_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_stream_to_vector_0_0, '0', zeromq_pub_sink_0_0, '0']
 - [blocks_throttle_0, '0', blocks_selector_0_0, '0']
 - [blocks_throttle_0_0, '0', blocks_selector_0_0, '1']
