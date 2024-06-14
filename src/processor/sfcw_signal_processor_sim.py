@@ -52,7 +52,7 @@ class SfcwSimulationConfig:
             self.name = ''.join(random.choices(string.ascii_letters, k=6))
             self.name = f"test-{self.name}"
        
-        self.M = int(2**np.ceil(np.log2(self.N)))
+        self.M = int(2**np.ceil(np.log2(self.end_frequency/self.step_frequency)))
         # self.target_range_end = self.max_unambiguos_range/2
         # self.target_range_step = self.range_resolution
 
@@ -141,10 +141,10 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
                 print(f"Current range: {target_range}\n")
 
         change_variable(xmlrpc.set_target_range, target_range)
-        V = np.zeros(config.M, dtype=np.complex64)
+        V_pos = np.zeros(config.M, dtype=np.complex64) # *2 to consider positive and negatives values
 
-        idx = 0
         current_frequency = config.start_frequency
+        idx = int(current_frequency / config.step_frequency)
 
         while current_frequency < config.end_frequency:
             if verbose: print(f"Current frequency {idx}: {current_frequency}")
@@ -166,16 +166,17 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
             # sample_value = np.angle(measurement_data[sample_value_index]/reference_data[sample_value_index])
             sample_value = measurement_data[sample_value_index]/reference_data[sample_value_index]
             
-            V[idx] = sample_value
+            V_pos[idx] = sample_value
                 
             socket.close()
             current_frequency += config.step_frequency
             idx += 1
-
-        y_m2 = np.abs(np.fft.ifft(V))
+        
+        V_neg = np.flip(V_pos[1:])
+        V = np.concatenate((V_pos, V_neg))
+        y_m2 = np.abs(np.fft.ifft(V_pos))
         x_m2 = np.linspace(0, y_m2.size - 1, y_m2.size)
         x_m2 = x_m2*LIGHTSPEED/(2*y_m2.size*config.step_frequency)
-
         results.append({
             'expected': target_range, 
             'predicted': x_m2[np.argmax(y_m2)],

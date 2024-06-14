@@ -8,6 +8,21 @@ if __name__ == "__main__":
 
     # Bandwith constante, N variable
 
+    # config = SfcwSimulationConfig(
+    #     name=f"corregido",
+    #     start_frequency=105e6,
+    #     step_frequency=3e6,
+    #     N = 50,
+
+    #     )
+    # ensayo = {}
+    # ensayo['config'] = config.__dict__
+    # ensayo['results'] =  sfcw_signal_processor(config)
+    # file_ensayo = open(f"{config.name}.json", "w")
+    # file_ensayo.write(json.dumps(ensayo))
+    # file_ensayo.close()
+
+
     # for i in range(5, 55, 5):
     #     config = SfcwSimulationConfig(
     #         name=f"bandwidth-constante-{i}",
@@ -23,20 +38,20 @@ if __name__ == "__main__":
     #     file_ensayo.write(json.dumps(ensayo))
     #     file_ensayo.close()
 
-    for i in range(120, 200, 20):
-        config = SfcwSimulationConfig(
-            name=f"freq-step-constante-{i}",
-            start_frequency=100e6,
-            step_frequency=3e6,
-            N = i,
-            )
-        ensayo = {}
-        ensayo['config'] = config.__dict__
-        print(ensayo)
-        ensayo['results'] =  sfcw_signal_processor(config)
-        file_ensayo = open(f"{config.name}.json", "w")
-        file_ensayo.write(json.dumps(ensayo))
-        file_ensayo.close()
+    # for i in range(120, 200, 20):
+    #     config = SfcwSimulationConfig(
+    #         name=f"freq-step-constante-{i}",
+    #         start_frequency=100e6,
+    #         step_frequency=3e6,
+    #         N = i,
+    #         )
+    #     ensayo = {}
+    #     ensayo['config'] = config.__dict__
+    #     print(ensayo)
+    #     ensayo['results'] =  sfcw_signal_processor(config)
+    #     file_ensayo = open(f"{config.name}.json", "w")
+    #     file_ensayo.write(json.dumps(ensayo))
+    #     file_ensayo.close()
 
     # for i in range(1, 6, 1):
     #     config = SfcwSimulationConfig(
@@ -67,3 +82,18 @@ if __name__ == "__main__":
     #     file_ensayo = open(f"{config.name}.json", "w")
     #     file_ensayo.write(json.dumps(ensayo))
     #     file_ensayo.close()
+
+    for i in range(10, 200, 10):
+        config = SfcwSimulationConfig(
+            name=f"zero-freq-step-constante-{i}",
+            start_frequency=105e6,
+            step_frequency=3e6,
+            N = i,
+            )
+        ensayo = {}
+        ensayo['config'] = config.__dict__
+        print(ensayo)
+        ensayo['results'] =  sfcw_signal_processor(config)
+        file_ensayo = open(f"{config.name}.json", "w")
+        file_ensayo.write(json.dumps(ensayo))
+        file_ensayo.close()
