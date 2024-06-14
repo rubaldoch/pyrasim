@@ -43,7 +43,7 @@ class sfcw_signal_generator_simul(gr.top_block):
         self.wave_type = wave_type = 1
         self.wave_length = wave_length = (light_speed/baseband_freq)
         self.tx_gain = tx_gain = 10
-        self.timestamp = timestamp = 0
+        self.timestamp = timestamp = 1
         self.target_speed = target_speed = 0
         self.target_range = target_range = 1
         self.samp_rate = samp_rate = 200e3
@@ -52,7 +52,7 @@ class sfcw_signal_generator_simul(gr.top_block):
         self.noise_amp = noise_amp = 0
         self.n_points = n_points = 1024
         self.n_channels = n_channels = 2
-        self.loss = loss = 0
+        self.loss = loss = 0.01
 
         ##################################################
         # Blocks
