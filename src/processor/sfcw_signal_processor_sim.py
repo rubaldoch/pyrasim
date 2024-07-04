@@ -159,7 +159,8 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
             while socket.poll(10) == 0: pass
 
             msg = socket.recv(flags=zmq.NOBLOCK)
-            reference_data, measurement_data = preprocess_data(msg)            
+            reference_data, measurement_data = preprocess_data(msg)
+
             if verbose: print(f"Received frequency: {get_frequency(reference_data, config.sample_rate)}\n")
         
             sample_value_index = reference_data.size // 2
@@ -177,10 +178,13 @@ def sfcw_signal_processor(config: SfcwSimulationConfig, verbose:bool=True):
         y_m2 = np.abs(np.fft.ifft(V_pos))
         x_m2 = np.linspace(0, y_m2.size - 1, y_m2.size)
         x_m2 = x_m2*LIGHTSPEED/(2*y_m2.size*config.step_frequency)
-        results.append({
+        result = {
             'expected': target_range, 
             'predicted': x_m2[np.argmax(y_m2)],
-            })
+            }
+        if verbose:
+            print(result)
+        results.append(result)
     
         target_range += config.target_range_step  
 
